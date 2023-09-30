@@ -66,14 +66,20 @@ class AuthBackend:
 
         driver.get(config['paths']['main'])
 
-        WebDriverWait(driver, config['explicit_wait']).until(EC.title_contains("TikTok"))
+        # sleep(8)
+        # print(f'Current Url: {driver.current_url}')
+        # print(f'Source: {driver.page_source}')
+
+        WebDriverWait(driver, config['explicit_wait']).until(EC.title_contains("抖音"))
 
         for cookie in self.cookies:
             try:
                 driver.add_cookie(cookie)
+                print(f'Debug add cookie: {cookie}')
             except Exception as _:
                 logger.error('Failed to add cookie %s', cookie)
-
+        # driver.refresh()
+        # driver.implicitly_wait(10)
         return driver
 
 

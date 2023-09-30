@@ -16,12 +16,13 @@ supported_file_types = ["mp4", "mov", "avi", "wmv", "flv", "webm", "mkv", "m4v",
 max_description_length = 150 # characters
 
 [paths]
-main = "https://www.tiktok.com/"
+main = "https://www.douyin.com/"
+# main = "https://www.tiktok.com/"
 login = "https://www.tiktok.com/login/phone-or-email/email"
 upload = "https://www.tiktok.com/creator-center/upload?lang=en"
 
 [disguising]
-user_agent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3'
+user_agent = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.0.0 Safari/537.36'
 
 [selectors] # Selenium XPATH selectors
 

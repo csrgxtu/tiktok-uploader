@@ -111,56 +111,57 @@ def upload_videos(videos: list = None, auth: AuthBackend = None, proxy: dict = N
             driver.quit()
             raise Exception('Proxy is not working')
     driver = auth.authenticate_agent(driver)
+    time.sleep(16)
 
     failed = []
     # uploads each video
-    for video in videos:
-        try:
-            path = abspath(video.get('path'))
-            description = video.get('description', '')
-            schedule = video.get('schedule', None)
+    # for video in videos:
+    #     try:
+    #         path = abspath(video.get('path'))
+    #         description = video.get('description', '')
+    #         schedule = video.get('schedule', None)
 
-            logger.debug('Posting %s%s', bold(video.get('path')),
-            f'\n{" " * 15}with description: {bold(description)}' if description else '')
+    #         logger.debug('Posting %s%s', bold(video.get('path')),
+    #         f'\n{" " * 15}with description: {bold(description)}' if description else '')
 
-            # Video must be of supported type
-            if not _check_valid_path(path):
-                print(f'{path} is invalid, skipping')
-                failed.append(video)
-                continue
+    #         # Video must be of supported type
+    #         if not _check_valid_path(path):
+    #             print(f'{path} is invalid, skipping')
+    #             failed.append(video)
+    #             continue
 
-            # Video must have a valid datetime for tiktok's scheduler
-            if schedule:
-                timezone = pytz.UTC
-                if schedule.tzinfo is None:
-                    schedule = schedule.astimezone(timezone)
-                elif int(schedule.utcoffset().total_seconds()) == 0:  # Equivalent to UTC
-                    schedule = timezone.localize(schedule)
-                else:
-                    print(f'{schedule} is invalid, the schedule datetime must be naive or aware with UTC timezone, skipping')
-                    failed.append(video)
-                    continue
+    #         # Video must have a valid datetime for tiktok's scheduler
+    #         if schedule:
+    #             timezone = pytz.UTC
+    #             if schedule.tzinfo is None:
+    #                 schedule = schedule.astimezone(timezone)
+    #             elif int(schedule.utcoffset().total_seconds()) == 0:  # Equivalent to UTC
+    #                 schedule = timezone.localize(schedule)
+    #             else:
+    #                 print(f'{schedule} is invalid, the schedule datetime must be naive or aware with UTC timezone, skipping')
+    #                 failed.append(video)
+    #                 continue
 
-                valid_tiktok_minute_multiple = 5
-                schedule = _get_valid_schedule_minute(schedule, valid_tiktok_minute_multiple)
-                if not _check_valid_schedule(schedule):
-                    print(f'{schedule} is invalid, the schedule datetime must be as least 20 minutes in the future, and a maximum of 10 days, skipping')
-                    failed.append(video)
-                    continue
+    #             valid_tiktok_minute_multiple = 5
+    #             schedule = _get_valid_schedule_minute(schedule, valid_tiktok_minute_multiple)
+    #             if not _check_valid_schedule(schedule):
+    #                 print(f'{schedule} is invalid, the schedule datetime must be as least 20 minutes in the future, and a maximum of 10 days, skipping')
+    #                 failed.append(video)
+    #                 continue
 
-            complete_upload_form(driver, path, description, schedule,
-                                 num_retires=num_retires, headless=headless,
-                                 *args, **kwargs)
-        except Exception as exception:
-            logger.error('Failed to upload %s', path)
-            logger.error(exception)
-            failed.append(video)
+    #         complete_upload_form(driver, path, description, schedule,
+    #                              num_retires=num_retires, headless=headless,
+    #                              *args, **kwargs)
+    #     except Exception as exception:
+    #         logger.error('Failed to upload %s', path)
+    #         logger.error(exception)
+    #         failed.append(video)
 
-        if on_complete is callable: # calls the user-specified on-complete function
-            on_complete(video)
+    #     if on_complete is callable: # calls the user-specified on-complete function
+    #         on_complete(video)
 
-    if config['quit_on_end']:
-        driver.quit()
+    # if config['quit_on_end']:
+    #     driver.quit()
 
     return failed
 

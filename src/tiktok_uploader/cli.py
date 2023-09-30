@@ -6,6 +6,7 @@ from argparse import ArgumentParser
 from os.path import exists, join
 import datetime
 import json
+from time import sleep
 
 from tiktok_uploader.upload import upload_video
 from tiktok_uploader.auth import login_accounts, save_cookies
@@ -68,7 +69,7 @@ def get_uploader_args():
     parser.add_argument('-p', '--password', help='Your TikTok password')
 
     # selenium arguments
-    parser.add_argument('--attach', '-a', action='store_true', default=False,
+    parser.add_argument('--attach', '-a', action='store_true', default=True,
                          help='Runs the program in headless mode (no browser window)')
 
     return parser.parse_args()
